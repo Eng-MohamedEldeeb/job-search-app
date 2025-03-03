@@ -1,7 +1,7 @@
 // Get User's Own Profile:
 export const getProfile = {
   select: {
-    // avatar: {
+    // profilePic: {
     //   public_id: 0,
     // },
     password: 0,
@@ -42,7 +42,7 @@ export const getProfileFollowing = {
 export const updateProfile = {
   select: {
     _id: 1,
-    avatar: 1,
+    profilePic: 1,
     email: 1,
     isDeactivated: 1,
   },

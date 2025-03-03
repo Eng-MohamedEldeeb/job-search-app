@@ -18,7 +18,17 @@ export const fieldLength = ({ fieldName = "", min = 0, max = 0 } = {}) => {
 };
 
 export const defaultValues = {
-  avatar: {
+  profilePic: {
+    secure_url:
+      "https://res.cloudinary.com/djjqzi02l/image/upload/v1738584341/default_profile_pic_h0mteb.png",
+    public_id: "v1738584341/default_profile_pic_h0mteb",
+  },
+  coverPic: {
+    secure_url:
+      "https://res.cloudinary.com/djjqzi02l/image/upload/v1738584341/default_profile_pic_h0mteb.png",
+    public_id: "v1738584341/default_profile_pic_h0mteb",
+  },
+  logo: {
     secure_url:
       "https://res.cloudinary.com/djjqzi02l/image/upload/v1738584341/default_profile_pic_h0mteb.png",
     public_id: "v1738584341/default_profile_pic_h0mteb",

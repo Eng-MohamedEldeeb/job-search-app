@@ -1,5 +1,5 @@
 // Full Name Virtual :
-export const fullName_virtual = function () {
+export const userName_virtual = function () {
   return this.firstName && this.lastName
     ? `${this.firstName} ${this.lastName}`
     : this.firstName;

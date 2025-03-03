@@ -3,7 +3,7 @@ export const fileTypes = {
 };
 
 export const folderTypes = {
-  avatar: "avatar",
+  profilePic: "profilePic",
   post: "posts",
   comment: "comments",
   groupCover: "Group Cover",

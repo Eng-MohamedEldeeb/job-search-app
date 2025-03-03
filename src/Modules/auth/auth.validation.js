@@ -16,7 +16,6 @@ export const register = joi
     lastName: joi.string(),
     birthDate: joi.date().less("now"),
 
-    userName: generalFields.userName.required(),
     email: generalFields.email.required(),
     password: generalFields.password.required(),
     confirmPassword: generalFields.password
@@ -38,7 +37,7 @@ export const register = joi
 export const login = joi
   .object()
   .keys({
-    userName: generalFields.userName.required(),
+    email: generalFields.email.required(),
     password: generalFields.password.required(),
   })
   .required();

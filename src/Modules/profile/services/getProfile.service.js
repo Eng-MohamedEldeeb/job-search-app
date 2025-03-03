@@ -8,7 +8,7 @@ export const getProfile = asnycHandler(async (req, res, next) => {
   const user = req.user;
   user.phone = decryptValue({ payload: user.phone });
   const result = await cloud.uploader
-    .explode(req.user.avatar.public_id, {
+    .explode(req.user.profilePic.public_id, {
       page: "all",
     })
     .then((data) => console.log(data));

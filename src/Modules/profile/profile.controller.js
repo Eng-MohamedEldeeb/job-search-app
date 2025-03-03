@@ -88,7 +88,7 @@ router.get(
  **/
 router.patch(
   "/edit",
-  fileReader({ fileType: fileTypes.img }).single("avatar"),
+  fileReader({ fileType: fileTypes.img }).single("profilePic"),
   validation({
     schema: profileValidation.updateProfile,
     token: "authorization",

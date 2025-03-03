@@ -3,7 +3,6 @@ import { Router } from "express";
 import profileRouter from "./../profile/profile.controller.js";
 
 // Services :
-import { groupAuthentication } from "../../Middlewares/group/groupAuthentication.js";
 import {
   getUserFollowers,
   getUserFollowing,
@@ -11,7 +10,6 @@ import {
 } from "./services/getUserProfile.service.js";
 import { userFollowing } from "./services/userFollowing.service.js";
 import { blockUser, unblockUser } from "./services/userBlocking.service.js";
-import { groupJoin } from "./services/groupJoin.service.js";
 import {
   confirmDeleteAccount,
   requestDeleteAccount,
@@ -212,22 +210,4 @@ router.delete(
   unblockUser
 ); //✅
 
-/**
- * @method POST
- * @link /user/block
- * @description Block User
- * @param /block/:userId
- **/
-router.post(
-  "/group/join-unjoin/:id",
-  validation({
-    schema: userValidation.groupJoin,
-  }),
-  isAuthorized,
-  isAuthenticated({
-    options: { projection: userSelection.groupJoin.projection },
-  }),
-  groupAuthentication(),
-  groupJoin
-); //✅
 export default router;

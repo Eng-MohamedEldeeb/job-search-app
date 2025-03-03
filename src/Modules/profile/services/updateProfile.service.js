@@ -11,13 +11,13 @@ export const updateProfile = asnycHandler(async (req, res, next) => {
   // Updated Data :
   const { email, ...updatedData } = req.body;
 
-  // If There Was Avatar Updating :
+  // If There Was profilePic Updating :
   if (req.file) {
     await cloudUploader({
       req,
-      folderType: folderTypes.avatar,
+      folderType: folderTypes.profilePic,
       userId: req.user._id,
-      replaceWith: req.user.avatar.public_id,
+      replaceWith: req.user.profilePic.public_id,
     })
       .then(async (data) => {
         const updatedUser = await User.findByIdAndUpdate(
@@ -27,7 +27,7 @@ export const updateProfile = asnycHandler(async (req, res, next) => {
             ...(email && email != req.user.email && { tempEmail: email }),
             ...(data.public_id && {
               $set: {
-                avatar: {
+                profilePic: {
                   public_id: data.public_id,
                   secure_url: data.secure_url,
                 },
@@ -39,7 +39,7 @@ export const updateProfile = asnycHandler(async (req, res, next) => {
             projection: `${Object.keys({
               ...(email != req.user.email && { tempEmail: email }),
               ...updatedData,
-            }).join(" ")} ${data.public_id && "avatar.secure_url"}`,
+            }).join(" ")} ${data.public_id && "profilePic.secure_url"}`,
             lean: true,
           }
         );
@@ -59,7 +59,7 @@ export const updateProfile = asnycHandler(async (req, res, next) => {
     return;
   }
 
-  // If There Was No Avatar Updating :
+  // If There Was No profilePic Updating :
   const data = await User.findByIdAndUpdate(
     req.user._id,
     {

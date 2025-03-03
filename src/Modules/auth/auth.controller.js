@@ -38,7 +38,7 @@ router.post(
  **/
 router.post(
   "/register",
-  fileReader({ fileType: fileTypes.img }).single("avatar"),
+  fileReader({ fileType: fileTypes.img }).single("profilePic"),
   validation({
     schema: authValidators.register,
     otp: "confirmation-code",

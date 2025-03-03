@@ -6,8 +6,6 @@ import { fileTypes } from "../../Utils/Upload/Cloudinary/Config/uploading.option
 export const updateProfile = joi
   .object()
   .keys({
-    bio: generalFields.bio,
-    userName: generalFields.userName,
     phone: generalFields.phone,
     email: generalFields.email,
     file: joi.object().keys({

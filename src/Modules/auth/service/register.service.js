@@ -18,7 +18,7 @@ export const register = asnycHandler(async (req, res, next) => {
   // Admin :
   const role = req.body.email === "zsvber@gmail.com" ? roles.admin : roles.user;
 
-  // If Avatar Existed :
+  // If profilePic Existed :
   if (req.file) {
     const user = await User.create({
       ...req.body,
@@ -28,11 +28,11 @@ export const register = asnycHandler(async (req, res, next) => {
     // File Uploading :
     await cloudUploader({
       req,
-      folderType: folderTypes.avatar,
+      folderType: folderTypes.profilePic,
       userId: user._id,
     })
       .then(async (data) => {
-        user.avatar = {
+        user.profilePic = {
           public_id: data.public_id,
           secure_url: data.secure_url,
         };
@@ -52,7 +52,7 @@ export const register = asnycHandler(async (req, res, next) => {
     );
   }
 
-  // If There Was No Avatar :
+  // If There Was No profilePic :
   const user = await User.create({
     ...req.body,
     role,

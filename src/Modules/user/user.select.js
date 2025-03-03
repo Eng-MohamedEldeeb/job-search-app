@@ -7,7 +7,7 @@ export const getUserProfile = {
       phone: 0,
       password: 0,
       passwords: 0,
-      avatar: {
+      profilePic: {
         public_id: 0,
       },
     },

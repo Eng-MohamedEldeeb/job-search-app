@@ -3,10 +3,10 @@ import * as regex from "../../../../Utils/Validation/validators/regex.patterns.j
 import * as fieldValidation from "../../../Options/field.validation.js";
 import { generateMessage } from "../../../../Utils/Messages/messages.generator.js";
 import {
-  bioLength,
+  genders,
   passwordLength,
+  providerTypes,
   roles,
-  userNameLength,
 } from "../Validation/User.validation.js";
 
 const userSchema = new Schema(
@@ -19,41 +19,10 @@ const userSchema = new Schema(
     },
     lastName: {
       type: String,
+      required: [true, generateMessage("Last Name").errors.required.error],
       trim: true,
     },
     age: Number,
-
-    // Username :
-    userName: {
-      type: String,
-      validate: {
-        validator: fieldValidation.validateField(regex.userNameRegEx),
-        message: generateMessage("userName").errors.invalidFormate.error,
-      },
-      minlength: [
-        fieldValidation.fieldLength({
-          fieldName: "userName",
-          min: userNameLength.min,
-        }).min.value,
-        fieldValidation.fieldLength({
-          fieldName: "userName",
-          min: userNameLength.min,
-        }).min.msg,
-      ],
-      maxlength: [
-        fieldValidation.fieldLength({
-          fieldName: "userName",
-          max: userNameLength.max,
-        }).max.value,
-        fieldValidation.fieldLength({
-          fieldName: "userName",
-          max: userNameLength.max,
-        }).max.msg,
-      ],
-      unique: [true, generateMessage("userName").errors.alreadyExist.error],
-      required: [true, generateMessage("userName").errors.required.error],
-      trim: true,
-    },
 
     // Email :
     email: {
@@ -66,6 +35,7 @@ const userSchema = new Schema(
       required: [true, generateMessage("email").errors.required.error],
       trim: true,
     },
+
     tempEmail: {
       type: String,
       validate: {
@@ -74,7 +44,6 @@ const userSchema = new Schema(
       },
       trim: true,
     },
-    emailChangedAt: Date,
 
     // Password :
     password: {
@@ -103,74 +72,74 @@ const userSchema = new Schema(
         validator: fieldValidation.validateField(regex.passwordRegEx),
         message: generateMessage("Password").errors.invalidFormate.error,
       },
+      required: (data) => {
+        return data.provider === providerTypes.google ? false : true;
+      },
     },
     passwords: [String],
-    passwordChangedAt: Date,
 
     phone: {
       type: String,
-      // unique: [true, generateMessage("Phone Number").errors.alreadyExist.error],
       trim: true,
     },
 
-    avatar: {
+    profilePic: {
       secure_url: {
         type: String,
-        default: fieldValidation.defaultValues.avatar.secure_url,
+        default: fieldValidation.defaultValues.profilePic.secure_url,
       },
       public_id: {
         type: String,
-        default: fieldValidation.defaultValues.avatar.public_id,
+        default: fieldValidation.defaultValues.profilePic.public_id,
       },
     },
 
-    bio: {
-      type: String,
-      maxlength: [
-        fieldValidation.fieldLength({
-          fieldName: "Bio",
-          max: bioLength.max,
-        }).max.value,
-        fieldValidation.fieldLength({
-          fieldName: "Bio",
-          max: bioLength.max,
-        }).max.msg,
-      ],
-      trim: true,
+    coverPic: {
+      secure_url: {
+        type: String,
+        default: fieldValidation.defaultValues.coverPic.secure_url,
+      },
+      public_id: {
+        type: String,
+        default: fieldValidation.defaultValues.coverPic.public_id,
+      },
     },
 
+    // Enums:
     role: {
       type: String,
       enum: {
         values: Object.values(roles),
-        message: generateMessage().errors.enums.error,
+        message: generateMessage(roles).errors.enums.error,
       },
       default: roles.user,
     },
 
-    // Posts :
-    // posts: [{ type: Types.ObjectId, ref: "post" }],
+    gender: {
+      type: String,
+      enum: {
+        values: Object.values(genders),
+        message: generateMessage(genders).errors.enums.error,
+      },
+      default: genders.male,
+    },
 
-    // Groups :
-    createdGroups: [{ type: Types.ObjectId, ref: "group" }],
-    joinedGroups: [{ type: Types.ObjectId, ref: "group" }],
-
-    // Following-Followers :
-    followers: [{ type: Types.ObjectId, ref: "user" }],
-    following: [{ type: Types.ObjectId, ref: "user" }],
-
-    // Block List :
-    blockList: [{ type: Types.ObjectId, ref: "user" }],
-
-    // Profile Viewers :
-    viewers: [{ type: Types.ObjectId, ref: "user" }],
+    provider: {
+      type: String,
+      enum: {
+        values: Object.values(providerTypes),
+        message: generateMessage(providerTypes).errors.enums.error,
+      },
+      default: providerTypes.system,
+    },
 
     // Profile Status :
-    privateProfile: Boolean,
-    isDeactivated: Boolean,
+    isConfirmed: Boolean,
+    changeCredentialTime: Date,
+    deletedAt: Date,
+    bannedAt: Date,
 
-    // Profile Requests :
-    requests: [{ type: Types.ObjectId, ref: "user" }],
+    updatedBy: { type: Types.ObjectId, ref: "User" },
   },
   {
     timestamps: true,

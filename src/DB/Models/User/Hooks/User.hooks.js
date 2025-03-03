@@ -1,6 +1,5 @@
 // Models :
 import OTP from "../../OTP/OTP.model.js";
-import Post from "../../Post/Post.model.js";
 
 // Validations :
 import * as fieldValidation from "../../../Options/field.validation.js";
@@ -67,14 +66,16 @@ export const pre_findOneAndUpdate = async function (next) {
 };
 
 export const post_findOneAndDelete = async function (doc, next) {
-  const { _id, avatar } = doc;
+  const { _id, profilePic } = doc;
   const userData = { owner: _id };
 
-  if (avatar.public_id != fieldValidation.defaultValues.avatar.public_id)
-    await cloud.uploader.destroy(avatar.public_id);
+  if (
+    profilePic.public_id != fieldValidation.defaultValues.profilePic.public_id
+  )
+    await cloud.uploader.destroy(profilePic.public_id);
 
   await Promise.allSettled([
-    Post.deleteMany(userData),
+    // Post.deleteMany(userData),
     OTP.findOneAndDelete({ email: doc.email }),
   ]);
 };

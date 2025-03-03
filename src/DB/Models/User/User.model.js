@@ -1,7 +1,7 @@
 import { model } from "mongoose";
 
 // Virtuals :
-import { age_virtual, fullName_virtual } from "./Virtuals/User.virtuals.js";
+import { age_virtual, userName_virtual } from "./Virtuals/User.virtuals.js";
 
 // User Schema :
 import userSchema from "./Schema/User.schema.js";
@@ -16,16 +16,16 @@ import {
 // Virtuals :
 
 /* Full Name */
-userSchema.virtual("fullName").get(fullName_virtual);
+userSchema.virtual("userName").get(userName_virtual);
 
 /* BirthDate */
 userSchema.virtual("birthDate").set(age_virtual);
 
-userSchema.virtual("allPosts", {
-  ref: "post",
-  localField: "_id",
-  foreignField: "owner",
-});
+// userSchema.virtual("allPosts", {
+//   ref: "post",
+//   localField: "_id",
+//   foreignField: "owner",
+// });
 
 // Hooks :
 
@@ -39,6 +39,6 @@ userSchema.pre("findOneAndUpdate", pre_findOneAndUpdate);
 userSchema.post("findOneAndDelete", post_findOneAndDelete);
 
 // Model Definetion :
-const User = model("user", userSchema);
+const User = model("User", userSchema);
 
 export default User;
