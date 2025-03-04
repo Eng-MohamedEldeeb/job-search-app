@@ -2,14 +2,7 @@
 import { Router } from "express";
 
 // Services :
-
-import {
-  getProfile,
-  getProfileFollowers,
-  getProfileFollowing,
-} from "./services/getProfile.service.js";
-import { togglePrivateProfile } from "./services/privateProfile.service.js";
-import { twoStepsVerification } from "./services/twoStepsVerification.service.js";
+import { getProfile } from "./services/getProfile.service.js";
 import {
   confirmNewEmail,
   updateProfile,
@@ -54,34 +47,6 @@ router.get(
 ); //✅
 
 /**
- * @method GET
- * @link /user/profile/followers
- * @description Get User's Own Followers
- **/
-router.get(
-  "/followers",
-  isAuthorized,
-  isAuthenticated({
-    select: profileSelection.getProfileFollowers.select,
-  }),
-  getProfileFollowers
-); //✅
-
-/**
- * @method GET
- * @link /user/profile/following
- * @description Get User's Own Following
- **/
-router.get(
-  "/following",
-  isAuthorized,
-  isAuthenticated({
-    select: profileSelection.getProfileFollowing.select,
-  }),
-  getProfileFollowing
-); //✅
-
-/**
  * @method PATCH
  * @link /user/profile/edit
  * @description Edit User's Own Profile
@@ -98,20 +63,6 @@ router.patch(
     select: profileSelection.updateProfile.select,
   }),
   updateProfile
-); //✅
-
-/**
- * @method PATCH
- * @link /user/profile/privacy
- * @description Change User's Own Profile Privacy
- **/
-router.put(
-  "/privacy",
-  isAuthorized,
-  isAuthenticated({
-    select: profileSelection.togglePrivateProfile.select,
-  }),
-  togglePrivateProfile
 ); //✅
 
 /**
@@ -169,20 +120,4 @@ router.put(
   confirmNewPassword
 ); //✅
 
-/**
- * @method PUT
- * @link /user/profile/2-steps-verification
- * @description Add 2 Steps Verification
- **/
-router.put(
-  "/2-steps-verification",
-  validation({
-    schema: profileValidation.confirmNewEmail,
-  }),
-  isAuthorized,
-  isAuthenticated({
-    // select: profileSelection.twoStepsVerification.select,
-  }),
-  twoStepsVerification
-);
 export default router;

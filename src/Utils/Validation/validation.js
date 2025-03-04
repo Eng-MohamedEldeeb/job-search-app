@@ -23,6 +23,7 @@ export const validation = ({
 
       // File | Files Values:
       ...(req.file && { file: req.file }),
+      ...(req.files && { files: req.files }),
 
       // OTP Value:
       ...(otp && {

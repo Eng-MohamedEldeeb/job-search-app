@@ -1,6 +1,8 @@
 import joi from "joi";
 import { generalFields } from "../../Utils/Validation/validators/general.fields.js";
 import { fileTypes } from "../../Utils/Upload/Cloudinary/Config/uploading.options.js";
+import { ageValidate } from "../../Utils/Validation/validators/age.validation.js";
+import { genders } from "../../DB/Models/User/Validation/User.validation.js";
 
 export const confirmEmail = joi
   .object()
@@ -14,7 +16,8 @@ export const register = joi
   .keys({
     firstName: joi.string(),
     lastName: joi.string(),
-    birthDate: joi.date().less("now"),
+    birthDate: joi.date().less("now").custom(ageValidate),
+    gender: joi.string().valid(...Object.values(genders)),
 
     email: generalFields.email.required(),
     password: generalFields.password.required(),

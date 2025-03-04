@@ -1,10 +1,11 @@
 export const fileTypes = {
   img: ["image/jpeg", "image/png"],
+  pdf: ["application/pdf"],
 };
 
 export const folderTypes = {
   profilePic: "profilePic",
-  post: "posts",
-  comment: "comments",
-  groupCover: "Group Cover",
+  coverPic: "coverPic",
+  logo: "logo",
+  legalAttachment: "legalAttachment",
 };

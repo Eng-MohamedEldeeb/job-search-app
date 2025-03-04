@@ -5,7 +5,7 @@ export const passwordLength = {
 
 export const roles = {
   admin: "admin",
-  user: "User",
+  user: "user",
 };
 
 export const genders = {

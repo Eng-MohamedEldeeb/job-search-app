@@ -1,6 +1,6 @@
 import multer from "multer";
 
-export const fileReader = ({ fileType = [] }) => {
+export const fileReader = ({ fileType = [] } = {}) => {
   const storage = multer.diskStorage({});
 
   const fileFilter = (req, file, cb) => {

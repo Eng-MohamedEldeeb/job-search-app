@@ -7,7 +7,6 @@ import { otpLength } from "../../../DB/Models/OTP/Validation/OTP.validation.js";
 
 export const generalFields = {
   // User
-
   email: joi.string().email(),
   password: joi
     .string()
@@ -15,6 +14,12 @@ export const generalFields = {
     .min(passwordLength.min)
     .max(passwordLength.max),
   phone: joi.string().pattern(regex.phoneRegEx),
+
+  // Company
+  companyName: joi.string(),
+  description: joi.string(),
+  industry: joi.string(),
+  address: joi.string(),
 
   // OTP
   otp: joi.string().max(otpLength.max),

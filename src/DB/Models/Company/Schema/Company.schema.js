@@ -66,7 +66,7 @@ const companySchema = new Schema(
 
     deletedAt: Date,
     bannedAt: Date,
-    approvedByAdmin: Boolean,
+    approvedByAdmin: { type: Boolean, default: false },
 
     hrs: [{ type: Types.ObjectId, ref: "User" }],
 

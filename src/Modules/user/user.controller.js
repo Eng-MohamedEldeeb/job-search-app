@@ -3,11 +3,7 @@ import { Router } from "express";
 import profileRouter from "./../profile/profile.controller.js";
 
 // Services :
-import {
-  getUserFollowers,
-  getUserFollowing,
-  getUserProfile,
-} from "./services/getUserProfile.service.js";
+import { getUserProfile } from "./services/getUserProfile.service.js";
 import { userFollowing } from "./services/userFollowing.service.js";
 import { blockUser, unblockUser } from "./services/userBlocking.service.js";
 import {
@@ -107,50 +103,6 @@ router.get(
     },
   }),
   getUserProfile
-); //✅
-
-/**
- * @method GET
- * @link /user/profile/following
- * @description Get User's Own Following
- **/
-router.get(
-  "/:userId/followers",
-  validation({ schema: userValidation.getUserFollowers }),
-  isAuthorized,
-  isAuthenticated({
-    options: {
-      projection: userSelection.getUserFollowers.projection.isAuthenticated,
-    },
-  }),
-  userAuthentication({
-    options: {
-      projection: userSelection.getUserFollowers.projection.userAuthentication,
-    },
-  }),
-  getUserFollowers
-); //✅
-
-/**
- * @method GET
- * @link /user/profile/following
- * @description Get User's Own Following
- **/
-router.get(
-  "/:userId/following",
-  validation({ schema: userValidation.getUserFollowing }),
-  isAuthorized,
-  isAuthenticated({
-    options: {
-      projection: userSelection.getUserFollowing.projection.isAuthenticated,
-    },
-  }),
-  userAuthentication({
-    options: {
-      projection: userSelection.getUserFollowing.projection.userAuthentication,
-    },
-  }),
-  getUserFollowing
 ); //✅
 
 /**

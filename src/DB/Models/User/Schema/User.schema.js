@@ -72,8 +72,8 @@ const userSchema = new Schema(
         validator: fieldValidation.validateField(regex.passwordRegEx),
         message: generateMessage("Password").errors.invalidFormate.error,
       },
-      required: (data) => {
-        return data.provider === providerTypes.google ? false : true;
+      required: function () {
+        return this.provider === providerTypes.google ? false : true;
       },
     },
     passwords: [String],

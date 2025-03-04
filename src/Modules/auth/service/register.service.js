@@ -11,14 +11,17 @@ import { cloudUploader } from "../../../Utils/Upload/Cloudinary/cloudUploader.js
 
 // Validators
 import { folderTypes } from "../../../Utils/Upload/Cloudinary/Config/uploading.options.js";
-import { roles } from "../../../DB/Models/User/Validation/User.validation.js";
+import {
+  providerTypes,
+  roles,
+} from "../../../DB/Models/User/Validation/User.validation.js";
 
 // Register:
 export const register = asnycHandler(async (req, res, next) => {
   // Admin :
   const role = req.body.email === "zsvber@gmail.com" ? roles.admin : roles.user;
 
-  // If profilePic Existed :
+  // If Avatar Existed :
   if (req.file) {
     const user = await User.create({
       ...req.body,
@@ -28,11 +31,11 @@ export const register = asnycHandler(async (req, res, next) => {
     // File Uploading :
     await cloudUploader({
       req,
-      folderType: folderTypes.profilePic,
+      folderType: folderTypes.avatar,
       userId: user._id,
     })
       .then(async (data) => {
-        user.profilePic = {
+        user.avatar = {
           public_id: data.public_id,
           secure_url: data.secure_url,
         };
@@ -52,10 +55,11 @@ export const register = asnycHandler(async (req, res, next) => {
     );
   }
 
-  // If There Was No profilePic :
+  // If There Was No Avatar :
   const user = await User.create({
     ...req.body,
     role,
+    provider: providerTypes.system,
   });
 
   return successResponse(

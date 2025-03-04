@@ -11,10 +11,10 @@ import { successResponse } from "../../../Utils/Res/success.response.js";
 
 export const login = asnycHandler(async (req, res, next) => {
   // User Login Info :
-  const { userName, password } = req.body;
+  const { email, password } = req.body;
 
   // Searching For The User :
-  const user = await User.findOne({ userName })
+  const user = await User.findOne({ email })
     .select({ password: 1, isDeactivated: 1 })
     .lean();
 
@@ -50,11 +50,11 @@ export const login = asnycHandler(async (req, res, next) => {
 
   // Tokens :
   const accessToken = generateToken({
-    payload: { _id: user._id, userName },
+    payload: { _id: user._id, email },
     expiresIn: "5d",
   });
   const refreshToken = generateToken({
-    payload: { _id: user._id, userName },
+    payload: { _id: user._id, email },
     expiresIn: "14d",
   });
 
