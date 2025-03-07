@@ -1,3 +1,4 @@
+import { Types } from "mongoose";
 import Company from "../../DB/Models/Company/Company.model.js";
 import { roles } from "../../DB/Models/User/Validation/User.validation.js";
 import { asnycHandler } from "../../Utils/Errors/asyncHandler.js";
@@ -11,20 +12,31 @@ export const companyAuthentication = ({
 } = {}) => {
   return asnycHandler(async (req, res, next) => {
     // Token :
-    const { id, name } = { ...req.params, ...req.query };
+    const { name, company } = { ...req.params, ...req.query };
 
-    // User Searching :
-    const company = await Company.findOne(
-      {
-        $or: [{ _id: id }, { companyName: name }],
-        deletedAt: { $exists: inlcudeIsDeleted },
-      },
-      select,
-      { lean: true, ...options }
-    );
+    let companyData;
+
+    if (name || (company && !Types.ObjectId.isValid(company))) {
+      companyData = await Company.findOne(
+        {
+          companyName: name || company,
+          deletedAt: { $exists: inlcudeIsDeleted },
+        },
+        select,
+        { lean: true, ...options }
+      );
+    }
+
+    if (company && Types.ObjectId.isValid(company)) {
+      companyData = await Company.findOne(
+        { _id: company, deletedAt: { $exists: inlcudeIsDeleted } },
+        select,
+        { lean: true, ...options }
+      );
+    }
 
     //! If The Company Wasn't Found:
-    if (!company) {
+    if (!companyData) {
       return errorResponse(
         { next },
         {
@@ -35,19 +47,21 @@ export const companyAuthentication = ({
     }
 
     //! If the User Wasn't The Owner Of The Company Or Admin:
-    if (
-      !company.createdBy.equals(req.user._id) ||
-      req.user.role !== roles.admin
-    )
+    const authorizationCheck = [
+      companyData.createdBy.toString(),
+      ...companyData.hrs.map(String),
+    ].includes(req.user._id.toString());
+
+    if (!authorizationCheck || req.user.role !== roles.admin)
       return errorResponse(
         { next },
         {
-          error: generateMessage().errors.notTheOwner.error,
+          error: generateMessage("Company").errors.notTheOwner.error,
           status: 403,
         }
       );
 
-    req.company = company;
+    req.company = companyData;
 
     return next();
   });

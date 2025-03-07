@@ -8,4 +8,5 @@ export const folderTypes = {
   coverPic: "coverPic",
   logo: "logo",
   legalAttachment: "legalAttachment",
+  userCV: "userCV",
 };

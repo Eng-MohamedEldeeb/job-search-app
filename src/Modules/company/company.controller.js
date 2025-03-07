@@ -1,4 +1,5 @@
 import { Router } from "express";
+import jobRouter from "./../Job/job.controller.js";
 import { isAuthenticated } from "../../Middlewares/auth/isAuthenticated.js";
 import { isAuthorized } from "../../Middlewares/auth/isAuthorized.js";
 import { validation } from "../../Utils/Validation/validation.js";
@@ -12,9 +13,31 @@ import { editCompanyData } from "./service/editCompanyData.service.js";
 import { archiveCompanyValidation } from "./Validation/archiveCompanyValidation.js";
 import { archiveCompany } from "./service/archiveCompany.service.js";
 import { getCompany } from "./service/getCompany.service.js";
+import { getCompanySelection } from "./company.select.js";
+import { delCompanyCoverPicValidation } from "./Validation/delCompanyCoverPic.validation.js";
+import { delCompanyLogoValidation } from "./Validation/delCompanyLogo.validation.js";
+import { delCompanyLogo } from "./service/delCompanyLogo.service.js";
+import { delCompanyCoverPic } from "./service/delCompanyCoverPic.service.js";
+import { uploadCompanyLogo } from "./service/uploadCompanyLogo.service.js";
+import { uploadCompanyCoverPic } from "./service/uploadCompanyCoverPic.service.js";
+import { uploadCompanyCoverPicValidation } from "./Validation/uploadCompanyCoverPic.validation.js";
+import { uploadCompanyLogoValidation } from "./Validation/uploadCompanyLog.validation.js";
 
 const router = Router();
 
+/**
+ * @method GET
+ * @link /company/companyName||companyId/jobs
+ * @param company company's id
+ * @description jobs Router
+ **/
+router.use(
+  "/:company/jobs",
+  isAuthorized,
+  isAuthenticated(),
+  companyAuthentication(),
+  jobRouter
+);
 /**
  * @method GET
  * @link /company?name=(Company's Name)
@@ -22,10 +45,12 @@ const router = Router();
  * @description Get Company's Jobs
  **/
 router.get(
-  "/",
+  "/:company?",
   isAuthorized,
   isAuthenticated(),
-  companyAuthentication(),
+  companyAuthentication({
+    options: getCompanySelection.companyAuthentication.options,
+  }),
   getCompany
 );
 
@@ -54,7 +79,7 @@ router.post(
  * @description Edit Company's Data
  **/
 router.patch(
-  "/edit/:id",
+  "/edit/:company",
   isAuthorized,
   isAuthenticated(),
   companyAuthentication(),
@@ -69,7 +94,7 @@ router.patch(
  * @description Soft Delete Company
  **/
 router.delete(
-  "/archive/:id",
+  "/archive/:company",
   isAuthorized,
   isAuthenticated(),
   companyAuthentication(),
@@ -78,18 +103,49 @@ router.delete(
 );
 
 /**
+ * @method PUT
+ * @link /company/:id/logo
+ * @param id => Company's Id
+ * @description Delete Company's logo
+ **/
+router.put(
+  "/:company/logo",
+  fileReader({ fileType: fileTypes.img }).single("logo"),
+  validation({ schema: uploadCompanyLogoValidation, token: true }),
+  isAuthorized,
+  isAuthenticated(),
+  companyAuthentication(),
+  uploadCompanyLogo
+);
+
+/**
+ * @method PUT
+ * @link /company/:id/cover-pic
+ * @param id => Company's Id
+ * @description Delete Company's Cover-Pic
+ **/
+router.put(
+  "/:company/cover-pic",
+  fileReader({ fileType: fileTypes.img }).single("coverPic"),
+  validation({ schema: uploadCompanyCoverPicValidation, token: true }),
+  isAuthorized,
+  isAuthenticated(),
+  companyAuthentication(),
+  uploadCompanyCoverPic
+);
+/**
  * @method DELETE
  * @link /company/:id/logo
  * @param id => Company's Id
  * @description Delete Company's logo
  **/
 router.delete(
-  "/:id/logo",
+  "/:company/logo",
   isAuthorized,
   isAuthenticated(),
   companyAuthentication(),
-  validation({ schema: archiveCompanyValidation, token: true })
-  // delCompanyLogo
+  validation({ schema: delCompanyLogoValidation, token: true }),
+  delCompanyLogo
 );
 
 /**
@@ -99,12 +155,12 @@ router.delete(
  * @description Delete Company's Cover-Pic
  **/
 router.delete(
-  "/:id/cover-pic",
+  "/:company/cover-pic",
   isAuthorized,
   isAuthenticated(),
   companyAuthentication(),
-  validation({ schema: archiveCompanyValidation, token: true })
-  // delCompanyCoverPic
+  validation({ schema: delCompanyCoverPicValidation, token: true }),
+  delCompanyCoverPic
 );
 
 export default router;

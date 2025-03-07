@@ -4,10 +4,17 @@ import { errorResponse } from "../Res/error.response.js";
 export const validation = ({
   schema = null,
   token = true,
-  query = false,
+  query = false || [],
   otp = false,
 }) => {
   return asnycHandler((req, res, next) => {
+    const queries = {};
+
+    if (query)
+      query.map((query) => {
+        return (queries[query] = req.query[query]);
+      });
+
     const values = {
       // Token Value:
       ...(token && { ["authorization"]: req.headers["authorization"] }),
@@ -15,11 +22,14 @@ export const validation = ({
       // Body Values:
       ...req.body,
 
+      // Query:
+      ...req.query,
+
       // Params:
       ...req.params,
 
       // Query Params:
-      ...(query && { [query]: req.headers[query] }),
+      ...(query && queries),
 
       // File | Files Values:
       ...(req.file && { file: req.file }),

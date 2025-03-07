@@ -7,35 +7,6 @@ export const getProfile = {
     password: 0,
     passwords: 0,
   },
-  options: {
-    populate: {
-      path: "allPosts",
-      select: {
-        attachment: {
-          public_id: 0,
-        },
-      },
-      options: {
-        sort: {
-          createdAt: -1,
-        },
-      },
-    },
-  },
-};
-
-// Get User's Own Profile Followers:
-export const getProfileFollowers = {
-  select: {
-    followers: 1,
-  },
-};
-
-// Get User's Own Profile Following:
-export const getProfileFollowing = {
-  select: {
-    following: 1,
-  },
 };
 
 // Update User's Own Profile:

@@ -2,7 +2,7 @@ import joi from "joi";
 import { generalFields } from "../../../Utils/Validation/validators/general.fields.js";
 
 export const editCompanyDataValidation = joi.object().keys({
-  id: generalFields.id.required(),
+  company: generalFields.id.required(),
   companyName: generalFields.companyName,
   companyEmail: generalFields.email,
   description: generalFields.description,

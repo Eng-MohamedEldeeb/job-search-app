@@ -8,6 +8,8 @@ export const emailTypes = {
   resetPassword: "resetPassword",
   changePassword: "changePassword",
   deleteAccount: "deleteAccount",
+  applicationAccepted: "applicationAccepted",
+  applicationRejected: "applicationRejected",
 };
 
 export const sendEmailHandler = async ({

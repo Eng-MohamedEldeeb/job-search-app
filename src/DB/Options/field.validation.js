@@ -33,4 +33,9 @@ export const defaultValues = {
       "https://res.cloudinary.com/djjqzi02l/image/upload/v1738584341/default_profile_pic_h0mteb.png",
     public_id: "v1738584341/default_profile_pic_h0mteb",
   },
+  userCV: {
+    secure_url:
+      "https://res.cloudinary.com/djjqzi02l/image/upload/v1738584341/default_profile_pic_h0mteb.png",
+    public_id: "v1738584341/default_profile_pic_h0mteb",
+  },
 };

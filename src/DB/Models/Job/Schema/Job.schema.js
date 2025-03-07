@@ -46,7 +46,6 @@ const jobSchema = new Schema(
     updatedBy: {
       type: Types.ObjectId,
       ref: "User",
-      required: [true, generateMessage("updatedBy").errors.required.error],
     },
     companyId: {
       type: Types.ObjectId,
@@ -55,7 +54,7 @@ const jobSchema = new Schema(
     },
     closed: Boolean,
   },
-  { timestamps: true }
+  { timestamps: true, toJSON: { virtuals: true }, toObject: { virtuals: true } }
 );
 
 export default jobSchema;

@@ -68,7 +68,7 @@ export const generateMessage = (fieldName = "", enumValues = []) => {
       },
 
       notAllowed: {
-        error: `Only Adimns are Allowed To Procced!`,
+        error: `Only Admins Or Hrs are Allowed To Procced!`,
         status: 403,
       },
     },

@@ -41,7 +41,6 @@ router.get(
   isAuthorized,
   isAuthenticated({
     select: profileSelection.getProfile.select,
-    options: profileSelection.getProfile.options,
   }),
   getProfile
 ); //✅

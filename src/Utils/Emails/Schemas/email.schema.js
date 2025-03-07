@@ -51,3 +51,21 @@ export const deleteAccount = ({ email = "", otp = "" } = {}) => {
     text: `Your account is Proccesing To Be Deleted, If You are The Request User use ${otp} confirm Deleting Your Account, if not We Suggest You To Change Your Password For Your Own Privacy`,
   };
 };
+
+export const applicationAccepted = ({ email = "" } = {}) => {
+  return {
+    from: `"Job Searching App" <${process.env.EMAIL}>`,
+    to: email,
+    subject: "Application Accepeted",
+    text: "Your Application Is Accepted",
+  };
+};
+
+export const applicationRejected = ({ email = "" } = {}) => {
+  return {
+    from: `"Job Searching App" <${process.env.EMAIL}>`,
+    to: email,
+    subject: "Application Rejected",
+    text: "Your Application Is Rejected",
+  };
+};
