@@ -12,6 +12,7 @@ import { encryptValue, hashValue } from "../../../../Utils/Security/hash.js";
 import sendEmail from "../../../../Utils/Emails/email.event.js";
 import cloud from "../../../../Utils/Upload/Cloudinary/Config/cloud.config.js";
 import { otpTypes } from "../../OTP/Validation/OTP.validation.js";
+import Company from "../../Company/Company.model.js";
 
 export const pre_save = async function (next) {
   if (this.isModified("password")) {
@@ -67,7 +68,7 @@ export const pre_findOneAndUpdate = async function (next) {
 
 export const post_findOneAndDelete = async function (doc, next) {
   const { _id, profilePic } = doc;
-  const userData = { owner: _id };
+  const userData = { createdBy: _id };
 
   if (
     profilePic.public_id != fieldValidation.defaultValues.profilePic.public_id
@@ -75,7 +76,7 @@ export const post_findOneAndDelete = async function (doc, next) {
     await cloud.uploader.destroy(profilePic.public_id);
 
   await Promise.allSettled([
-    // Post.deleteMany(userData),
+    Company.deleteMany(userData),
     OTP.findOneAndDelete({ email: doc.email }),
   ]);
 };
