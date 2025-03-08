@@ -1,0 +1,1081 @@
+{
+	"info": {
+		"_postman_id": "410b9e2b-3cda-4600-bb22-1d7af6625ef2",
+		"name": "Job Search App",
+		"schema": "https://schema.getpostman.com/json/collection/v2.0.0/collection.json",
+		"_exporter_id": "37407571"
+	},
+	"item": [
+		{
+			"name": "Auth",
+			"item": [
+				{
+					"name": "Confirm E-mail",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"const response = pm.response.json()\r",
+									"pm.collectionVariables.set(\"registeration\", response.data.otp)"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"email\": \"mohamedwolf20@gmail.com\"\r\n    // \"email\": \"zsvber@gmail.com\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": "{{baseURL}}/auth/confirm-email"
+					},
+					"response": []
+				},
+				{
+					"name": "Register",
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "POST",
+						"header": [
+							{
+								"key": "confirmation-code",
+								"value": "{{registeration}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "avatar",
+									"type": "file",
+									"src": "/C:/Users/ADMIN/Pictures/IMG_20220313_111437_297.jpg",
+									"disabled": true
+								},
+								{
+									"key": "email",
+									"value": "mohamedwolf20@gmail.com",
+									"type": "text"
+								},
+								{
+									"key": "firstName",
+									"value": "Mohamed",
+									"type": "text"
+								},
+								{
+									"key": "lastName",
+									"value": "Mahmoud",
+									"type": "text"
+								},
+								{
+									"key": "email",
+									"value": "zsvber@gmail.com",
+									"type": "text",
+									"disabled": true
+								},
+								{
+									"key": "password",
+									"value": "elnimr2110",
+									"type": "text"
+								},
+								{
+									"key": "confirmPassword",
+									"value": "elnimr2110",
+									"type": "text"
+								},
+								{
+									"key": "phone",
+									"value": "01288873997",
+									"type": "text"
+								},
+								{
+									"key": "birthDate",
+									"value": "10-21-2000",
+									"type": "text"
+								},
+								{
+									"key": "gender",
+									"value": "male",
+									"type": "text"
+								}
+							]
+						},
+						"url": "{{baseURL}}/auth/register"
+					},
+					"response": []
+				},
+				{
+					"name": "Login",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"var response = pm.response.json()\r",
+									"pm.collectionVariables.set(\"accessToken\", response.data.accessToken)\r",
+									"pm.collectionVariables.set(\"refreshToken\", response.data.refreshToken)"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"email\": \"zsvber@gmail.com\",\r\n    // \"email\": \"mohamedwolf20@gmail.com\",\r\n    \"password\": \"elnimr2110\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": "{{baseURL}}/auth/login"
+					},
+					"response": []
+				},
+				{
+					"name": "Forgot Password",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"const response = pm.response.json()\r",
+									"pm.collectionVariables.set(\"forgotPassOTP\", response.data.otp)"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"email\": \"zsvber@gmail.com\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": "{{baseURL}}/auth/forgot-password"
+					},
+					"response": []
+				},
+				{
+					"name": "Rest Password",
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "confirmation-code",
+								"value": "{{forgotPassOTP}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"email\": \"zsvber@gmail.com\",\r\n    \"newPassword\":\"elnimr21102\",\r\n    \"confirmNewPassword\":\"elnimr21102\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": "{{baseURL}}/auth/reset-password"
+					},
+					"response": []
+				},
+				{
+					"name": "Verify Account",
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "token",
+								"value": "{{token}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": "{{baseURL}}/auth/verify-account"
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Profile",
+			"item": [
+				{
+					"name": "Get Profile",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"var template = `\r",
+									"<style type=\"text/css\">\r",
+									"    .tftable {font-size:14px;color:#333333;width:100%;border-width: 1px;border-color: #87ceeb;border-collapse: collapse;}\r",
+									"    .tftable th {font-size:18px;background-color:#87ceeb;border-width: 1px;padding: 8px;border-style: solid;border-color: #87ceeb;text-align:left;}\r",
+									"    .tftable tr {background-color:#ffffff;}\r",
+									"    .tftable td {font-size:14px;border-width: 1px;padding: 8px;border-style: solid;border-color: #87ceeb;}\r",
+									"    .tftable tr:hover {background-color:#e0ffff;}\r",
+									"</style>\r",
+									"\r",
+									"<table class=\"tftable\" border=\"1\">\r",
+									"    <tr>\r",
+									"        <th>User ID</th>\r",
+									"        <th>Username</th>\r",
+									"        <th>Email</th>\r",
+									"        <th>Phone</th>\r",
+									"        <th>Posts Count</th>\r",
+									"    </tr>\r",
+									"    \r",
+									"    {{#each response.data}}\r",
+									"        <tr>\r",
+									"            <td>{{_id}}</td>\r",
+									"            <td>{{userName}}</td>\r",
+									"            <td>{{email}}</td>\r",
+									"            <td>{{phone}}</td>\r",
+									"            <td>{{postsCount}}</td>\r",
+									"        </tr>\r",
+									"    {{/each}}\r",
+									"</table>\r",
+									"`;\r",
+									"\r",
+									"function constructVisualizerPayload() {\r",
+									"    var res = pm.response.json();\r",
+									"    var visualizerData = Object.values(res.data); // Convert object to array for easier iteration in the template\r",
+									"    return {response: visualizerData};\r",
+									"}\r",
+									"\r",
+									"pm.visualizer.set(template, constructVisualizerPayload());"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "authorization",
+								"value": "Bearer {{accessToken}}",
+								"type": "text"
+							}
+						],
+						"url": "{{baseURL}}/user/profile"
+					},
+					"response": []
+				},
+				{
+					"name": "Update Profile",
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "PATCH",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{accessToken}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "avatar",
+									"type": "file",
+									"src": "/C:/Users/ADMIN/Pictures/IMG_20220313_111437_297.jpg",
+									"disabled": true
+								},
+								{
+									"key": "userName",
+									"value": "ZSvber",
+									"type": "text"
+								},
+								{
+									"key": "bio",
+									"value": "My Bio",
+									"type": "text"
+								},
+								{
+									"key": "email",
+									"value": "zsvber@gmail.com",
+									"type": "text"
+								}
+							]
+						},
+						"url": "{{baseURL}}/user/profile/edit"
+					},
+					"response": []
+				},
+				{
+					"name": "Confirm New E-mail",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"const response = pm.response.json()\r",
+									"pm.collectionVariables.set(\"registeration\", response.data.otp)"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "confirmation-code",
+								"value": "6541",
+								"type": "text"
+							},
+							{
+								"key": "Authorization",
+								"value": "Bearer {{accessToken}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"newEmail\": \"zsvber@gmail.com\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": "{{baseURL}}/user/profile/confirm-new-email"
+					},
+					"response": []
+				},
+				{
+					"name": "Request Change Password",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"const response = pm.response.json()\r",
+									"pm.collectionVariables.set(\"changePasswordCode\", response.data.otp)"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{accessToken}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": "{{baseURL}}/user/profile/change-password"
+					},
+					"response": []
+				},
+				{
+					"name": "New Password",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{accessToken}}",
+								"type": "text"
+							},
+							{
+								"key": "confirmation-code",
+								"value": "{{changePasswordCode}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"oldPassword\": \"elnimr21102\",\r\n    \"newPassword\": \"elnimr2110\",\r\n    \"confirmPassword\":\"elnimr2110\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": "{{baseURL}}/user/profile/new-password"
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Company",
+			"item": [
+				{
+					"name": "Add Company",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{accessToken}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "logo",
+									"type": "file",
+									"src": "/C:/Users/ADMIN/Pictures/IMG_20240725_215743.jpg"
+								},
+								{
+									"key": "cover",
+									"type": "file",
+									"src": "/C:/Users/ADMIN/Pictures/IMG_20220313_111437_297.jpg"
+								},
+								{
+									"key": "legalAttachment",
+									"type": "file",
+									"src": "/E:/Rout/Back-End/Exams/job-search-app/Assignment 1.pdf"
+								},
+								{
+									"key": "companyName",
+									"value": "Clinic",
+									"type": "text"
+								},
+								{
+									"key": "companyEmail",
+									"value": "clinic@gmail.com",
+									"type": "text"
+								},
+								{
+									"key": "description",
+									"value": "health care company",
+									"type": "text"
+								},
+								{
+									"key": "industry",
+									"value": "health care",
+									"type": "text"
+								},
+								{
+									"key": "address",
+									"value": "egypt/cairo",
+									"type": "text"
+								}
+							]
+						},
+						"url": "{{baseURL}}/company/add"
+					},
+					"response": []
+				},
+				{
+					"name": "Upload Company logo",
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{accessToken}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "logo",
+									"type": "file",
+									"src": "/C:/Users/ADMIN/Pictures/IMG_20220313_111437_297.jpg"
+								}
+							]
+						},
+						"url": "{{baseURL}}/company/67c770033807ba8446d9662f/logo"
+					},
+					"response": []
+				},
+				{
+					"name": "Edit Company",
+					"request": {
+						"method": "PATCH",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{accessToken}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"companyEmail\": \"clinicCare@gmail.com\"\r\n    // \"companyEmail\": \"\",\r\n    // \"description\": \"\",\r\n    // \"industry\": \"\",\r\n    // \"address\": \"\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": "{{baseURL}}/company/edit/67c770033807ba8446d9662f"
+					},
+					"response": []
+				},
+				{
+					"name": "Archive Company",
+					"request": {
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{accessToken}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": "{{baseURL}}/company/archive/67c770033807ba8446d9662f"
+					},
+					"response": []
+				},
+				{
+					"name": "Get Company With Name",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{accessToken}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseURL}}/company?name=Clinic",
+							"host": [
+								"{{baseURL}}"
+							],
+							"path": [
+								"company"
+							],
+							"query": [
+								{
+									"key": "name",
+									"value": "Clinic"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get Company With Id",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{accessToken}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": "{{baseURL}}/company/67c770033807ba8446d9662f"
+					},
+					"response": []
+				},
+				{
+					"name": "Del Company Logo",
+					"request": {
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{accessToken}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": "{{baseURL}}/company/67c770033807ba8446d9662f/logo"
+					},
+					"response": []
+				},
+				{
+					"name": "Del Company coverPic",
+					"request": {
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{accessToken}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": "{{baseURL}}/company/67c770033807ba8446d9662f/cover-pic"
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Job",
+			"item": [
+				{
+					"name": "Add Job",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{accessToken}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"jobTitle\":\"Back-End Developing\",\r\n    \"jobLocation\":\"hybrid\",\r\n    \"jobDescription\":\"Node Js Developer\",\r\n    \"workingTime\":\"full-time\",\r\n    \"seniorityLevel\":\"fresh\",\r\n    \"technicalSkills\":[\"node js\",\"express\",\"noSQLDB\"],\r\n    \"softSkills\":[\"Time-Mangement\"]\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": "{{baseURL}}/company/67c770033807ba8446d9662f/jobs/add"
+					},
+					"response": []
+				},
+				{
+					"name": "Edit job",
+					"request": {
+						"method": "PATCH",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{accessToken}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"technicalSkills\":[\"redias\", \"jwt\"]\r\n    // \"softSkills\":[\"Time-Mangement\", \"teeam-work\", \"system-manegment\", \"oranized-work\", \"presure\"]\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": "{{baseURL}}/company/67c770033807ba8446d9662f/jobs/edit/67c8bd808bd82b619444e3f2"
+					},
+					"response": []
+				},
+				{
+					"name": "Delete job",
+					"request": {
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{accessToken}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": "{{baseURL}}/company/67c770033807ba8446d9662f/jobs/67c8bd808bd82b619444e3f2"
+					},
+					"response": []
+				},
+				{
+					"name": "Get Company Specific Job",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{accessToken}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": "{{baseURL}}/company/67c770033807ba8446d9662f/jobs/67c8ca8e55337aff277fadbc"
+					},
+					"response": []
+				},
+				{
+					"name": "Get Company Jobs with id",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{accessToken}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": "{{baseURL}}/company/67c770033807ba8446d9662f/jobs"
+					},
+					"response": []
+				},
+				{
+					"name": "Get Company Jobs with company name",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{accessToken}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": "{{baseURL}}/company/Clinic/jobs"
+					},
+					"response": []
+				},
+				{
+					"name": "Get Company Jobs with Filter",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{accessToken}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseURL}}/company/Clinic/jobs?filter=true&technicalSkills=node js",
+							"host": [
+								"{{baseURL}}"
+							],
+							"path": [
+								"company",
+								"Clinic",
+								"jobs"
+							],
+							"query": [
+								{
+									"key": "filter",
+									"value": "true"
+								},
+								{
+									"key": "technicalSkills",
+									"value": "node js"
+								}
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Application",
+			"item": [
+				{
+					"name": "Get All Job Applications",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{accessToken}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": "{{baseURL}}/application/for-job/67c8ca8e55337aff277fadbc"
+					},
+					"response": []
+				},
+				{
+					"name": "Apply to Job",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{accessToken}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "application",
+									"type": "file",
+									"src": "/E:/Rout/Back-End/Exams/job-search-app/info/Assignment 1.pdf"
+								}
+							]
+						},
+						"url": "{{baseURL}}/application/apply/67c8ca8e55337aff277fadbc"
+					},
+					"response": []
+				},
+				{
+					"name": "Accept Applicition",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{accessToken}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": "{{baseURL}}/application/accept-application/67ca255a6cefa88b7c538d5b"
+					},
+					"response": []
+				},
+				{
+					"name": "Reject Applicition",
+					"request": {
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{accessToken}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": "{{baseURL}}/application/reject-application/67ca2c8aa5445bb732cc03d4"
+					},
+					"response": []
+				}
+			]
+		}
+	],
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"packages": {},
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"packages": {},
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"key": "baseURL",
+			"value": "http://localhost:3000",
+			"type": "string"
+		},
+		{
+			"key": "accessToken",
+			"value": ""
+		},
+		{
+			"key": "refreshToken",
+			"value": ""
+		},
+		{
+			"key": "forgotPassOTP",
+			"value": ""
+		},
+		{
+			"key": "registeration",
+			"value": ""
+		},
+		{
+			"key": "changePasswordCode",
+			"value": ""
+		},
+		{
+			"key": "deleteProfileCode",
+			"value": ""
+		}
+	]
+}

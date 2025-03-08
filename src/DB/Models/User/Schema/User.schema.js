@@ -8,6 +8,7 @@ import {
   providerTypes,
   roles,
 } from "../Validation/User.validation.js";
+import { userName_virtual } from "../Virtuals/User.virtuals.js";
 
 const userSchema = new Schema(
   {
@@ -146,8 +147,8 @@ const userSchema = new Schema(
     versionKey: false,
 
     // Virtuals ;
-    toObject: { virtuals: true },
     toJSON: { virtuals: true },
+    toObject: { virtuals: true },
   }
 );
 

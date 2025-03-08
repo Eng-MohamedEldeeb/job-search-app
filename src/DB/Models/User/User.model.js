@@ -21,12 +21,6 @@ userSchema.virtual("userName").get(userName_virtual);
 /* BirthDate */
 userSchema.virtual("birthDate").set(age_virtual);
 
-// userSchema.virtual("allPosts", {
-//   ref: "post",
-//   localField: "_id",
-//   foreignField: "owner",
-// });
-
 // Hooks :
 
 /* Pre Save */
@@ -40,5 +34,7 @@ userSchema.post("findOneAndDelete", post_findOneAndDelete);
 
 // Model Definetion :
 const User = model("User", userSchema);
+
+export const connectedUsers = new Map();
 
 export default User;

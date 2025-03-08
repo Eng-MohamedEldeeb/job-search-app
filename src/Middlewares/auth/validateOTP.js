@@ -2,6 +2,7 @@ import OTP from "../../DB/Models/OTP/OTP.model.js";
 import { asnycHandler } from "../../Utils/Errors/asyncHandler.js";
 import { generateMessage } from "../../Utils/Messages/messages.generator.js";
 import { errorResponse } from "../../Utils/Res/error.response.js";
+import { compareValue } from "../../Utils/Security/hash.js";
 
 export const validateOTP = ({ otpType = "", otpFieldName = "" } = {}) => {
   return asnycHandler(async (req, res, next) => {
@@ -26,11 +27,13 @@ export const validateOTP = ({ otpType = "", otpFieldName = "" } = {}) => {
       );
     }
 
-    // !compareValue({
-    //   plainText: otpCode,
-    //   cryptedValue: result.otp,
-    // })
-    if (otpCode != result.otp && result.attempts != 4) {
+    if (
+      !compareValue({
+        plainText: otpCode,
+        cryptedValue: result.otp,
+      }) &&
+      result.attempts != 4
+    ) {
       result.attempts += 1;
       result.save();
 
