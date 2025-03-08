@@ -37,8 +37,8 @@ router.get(
 
 /**
  * @method POST
- * @link /company/add
- * @description Add New Company To DataBase
+ * @link /jobs/add
+ * @description Add New Job To DataBase
  **/
 router.post(
   "/add",
@@ -48,9 +48,9 @@ router.post(
 
 /**
  * @method PATCH
- * @link /company/edit/:id
- * @param id => Company's Id
- * @description Edit Company's Data
+ * @link /jobs/edit/:id
+ * @param id => Job's Id
+ * @description Edit Job's Data
  **/
 router.patch(
   "/edit/:id",
@@ -61,9 +61,9 @@ router.patch(
 
 /**
  * @method DELETE
- * @link /company/edit/:id
- * @param id => Company's Id
- * @description Soft Delete Company
+ * @link /jobs/edit/:id
+ * @param id => Job's Id
+ * @description Delete Job
  **/
 router.delete(
   "/:id",
