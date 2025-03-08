@@ -18,9 +18,6 @@ import {
 
 // Register:
 export const register = asnycHandler(async (req, res, next) => {
-  // Admin :
-  const role = req.body.email === "zsvber@gmail.com" ? roles.admin : roles.user;
-
   // If Avatar Existed :
   if (req.file) {
     const user = await User.create({
